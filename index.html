@@ -25,10 +25,24 @@
 
     <body>
         <header>
-            <img class="logo" src="assets/html_css_js.png" alt="logo" />
-            <h1>Web App</h1>
+            <img class="logo" src="assets/Purple-Beanie-Baby.jpg" alt="logo" />
+            <h1>Beanie Babies</h1>
         </header>
 
-        <main></main>
+        <main>
+            <section class="search">
+                <form id="search-form">
+                    <input name="name" placeholder="name" />
+                    <select id="astro-sign-select" name="astro-sign">
+                        <option value="">All Astrology Signs</option>
+                    </select>
+                    <button>🔍</button>
+                </form>
+
+                <p id="notification-display">Search to find Beanie Babies</p>
+            </section>
+
+            <ul class="list" id="beanie-babies-list"></ul>
+        </main>
     </body>
 </html>

@@ -5,6 +5,4 @@ const SUPABASE_KEY =
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // export async functions that fetch data
-export async function getBeanieBabies() {
-    
-}
+export async function getBeanieBabies() {}
