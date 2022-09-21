@@ -1,6 +1,7 @@
 /* Imports */
 
 import { getBeanieBabies } from './fetch-utuls.js';
+import { renderBeanieBaby } from './render-utils.js';
 
 /* Get DOM Elements */
 const notificationDisplay = document.getElementById('notification-display');
