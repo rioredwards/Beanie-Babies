@@ -1,3 +1,95 @@
-.error {
-    background-color: red;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 2rem;
+}
+
+.search {
+    display: flex;
+    justify-content: space-between;
+}
+
+#search-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+input,
+select {
+    height: 2rem;
+    width: 12rem;
+    padding: 0 5px;
+    font-size: 1.1rem;
+    border-radius: 0.4rem;
+    border: 0.15rem solid rgba(0, 0, 0, 0.214);
+}
+
+button {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 0.4rem;
+    border: 0.15rem solid rgba(0, 0, 0, 0.214);
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-rows: auto;
+    gap: 0.5rem;
+}
+
+.card {
+    height: 12rem;
+    width: 26rem;
+    padding: 1rem;
+    background: rgb(177, 233, 243);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    border-radius: 0.4rem;
+}
+
+.card:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+.card img {
+    width: 95%;
+    height: 95%;
+    object-fit: contain;
+    align-self: center;
+    justify-self: center;
+}
+
+.content {
+    padding: 15px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.content h2,
+.content p {
+    margin: 0;
+}
+
+.content h2 {
+    font-size: 1.1em;
+}
+
+.attributes {
+    align-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.released {
+    font-size: 0.8em;
 }
