@@ -60,6 +60,34 @@ button {
     cursor: pointer;
 }
 
+.not-clickable {
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.39);
+}
+
+.focus {
+    z-index: 2;
+    transform: scale(1.6);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -6rem;
+    margin-left: -13rem;
+}
+
 .card img {
     width: 95%;
     height: 95%;

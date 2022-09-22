@@ -8,12 +8,14 @@ const notificationDisplay = document.getElementById('notification-display');
 const beanieBabiesList = document.getElementById('beanie-babies-list');
 const astroSelect = document.getElementById('astro-sign-select');
 const searchForm = document.getElementById('search-form');
+const modal = document.getElementById('modal');
 
 /* State */
 let beanieBabies = [];
 let astroSigns = [];
 let error = null;
 let count = 0;
+let focusCard = null;
 
 /* Events */
 window.addEventListener('load', async () => {
@@ -50,6 +52,19 @@ searchForm.addEventListener('submit', (e) => {
     findBeanieBabies(name, astroSign);
 });
 
+function cardFocus() {
+    this.classList.add('focus', 'not-clickable');
+    modal.classList.remove('hidden', 'not-clickable');
+    focusCard = this;
+    modal.addEventListener('click', cardUnFocus);
+}
+
+function cardUnFocus() {
+    focusCard.classList.remove('focus', 'not-clickable');
+    modal.classList.add('hidden', 'not-clickable');
+    focusCard = null;
+}
+
 /* Display Functions */
 function displayBeanieBabies() {
     beanieBabiesList.innerHTML = '';
@@ -57,6 +72,7 @@ function displayBeanieBabies() {
     for (const beanieBaby of beanieBabies) {
         const beanieBabyEl = renderBeanieBaby(beanieBaby);
         beanieBabiesList.append(beanieBabyEl);
+        beanieBabyEl.addEventListener('click', cardFocus);
     }
 }
 
