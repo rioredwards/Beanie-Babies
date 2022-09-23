@@ -5,19 +5,22 @@ const SUPABASE_KEY =
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // export async functions that fetch data
-export async function getBeanieBabies(name, astroSign) {
+export async function getBeanies(filter, paging) {
+    const page = paging.page; 
+    const pageSize = paging.pageSize;
+
     let query = client
         .from('beanie_babies')
         .select('*', { count: 'exact' })
         .order('releaseYear')
-        .limit(100);
+        .range((page - 1) * pageSize, page * pageSize - 1);
 
-    if (name) {
-        query = query.ilike('title', `%${name}%`);
+    if (filter.name) {
+        query = query.ilike('title', `%${filter.name}%`);
     }
 
-    if (astroSign) {
-        query = query.eq('astroSign', astroSign);
+    if (filter.astroSign) {
+        query = query.eq('astroSign', filter.astroSign);
     }
 
     const response = await query;

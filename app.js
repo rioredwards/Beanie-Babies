@@ -1,25 +1,35 @@
 /* Imports */
 
-import { getAstroSigns, getBeanieBabies } from './fetch-utils.js';
+import { getAstroSigns, getBeanies } from './fetch-utils.js';
 import { renderAstroSignOption, renderBeanieBaby } from './render-utils.js';
 
 /* Get DOM Elements */
 const notificationDisplay = document.getElementById('notification-display');
-const beanieBabiesList = document.getElementById('beanie-babies-list');
+const beaniesList = document.getElementById('beanie-babies-list');
 const astroSelect = document.getElementById('astro-sign-select');
 const searchForm = document.getElementById('search-form');
 const modal = document.getElementById('modal');
 
 /* State */
-let beanieBabies = [];
+let beanies = [];
 let astroSigns = [];
 let error = null;
 let count = 0;
 let focusCard = null;
 
+let filter = {
+    name: '',
+    astroSign: '',
+};
+
+let paging = {
+    page: 1,
+    pageSize: 25,
+};
+
 /* Events */
 window.addEventListener('load', async () => {
-    // findBeanieBabies();
+    // findBeanies();
     const response = await getAstroSigns();
     error = response.error;
     astroSigns = response.data;
@@ -29,16 +39,37 @@ window.addEventListener('load', async () => {
     }
 });
 
-async function findBeanieBabies(name, astroSign) {
-    const response = await getBeanieBabies(name, astroSign);
+const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+        if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+            console.log(entry.target);
+            findMoreBeanies();
+        }
+    }
+});
+
+async function findMoreBeanies() {
+    paging.page++;
+    const response = await getBeanies(filter, paging);
+    console.log(response);
+    error = response.error;
+    const moreBeanies = response.data;
+    beanies = beanies.concat(moreBeanies);
+    displayMoreBeanies(moreBeanies);
+    displayNotifications();
+}
+
+async function findBeanies() {
+    const response = await getBeanies(filter, paging);
 
     error = response.error;
-    beanieBabies = response.data;
+    beanies = response.data;
     count = response.count;
 
     displayNotifications();
     if (!error) {
-        displayBeanieBabies();
+        displayBeanies();
     }
 }
 
@@ -46,10 +77,12 @@ searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(searchForm);
 
-    const name = formData.get('name');
-    const astroSign = formData.get('astroSign');
+    filter.name = formData.get('name');
+    filter.astroSign = formData.get('astroSign');
 
-    findBeanieBabies(name, astroSign);
+    // new search: reset page to 1
+    paging.page = 1;
+    findBeanies();
 });
 
 function cardFocus() {
@@ -66,14 +99,21 @@ function cardUnFocus() {
 }
 
 /* Display Functions */
-function displayBeanieBabies() {
-    beanieBabiesList.innerHTML = '';
+function displayBeanies() {
+    beaniesList.innerHTML = '';
+    displayMoreBeanies(beanies);
+}
 
-    for (const beanieBaby of beanieBabies) {
+function displayMoreBeanies(beanies) {
+    let lastEl = null;
+    for (const beanieBaby of beanies) {
         const beanieBabyEl = renderBeanieBaby(beanieBaby);
-        beanieBabiesList.append(beanieBabyEl);
+        beaniesList.append(beanieBabyEl);
         beanieBabyEl.addEventListener('click', cardFocus);
+        lastEl = beanieBabyEl;
     }
+    console.log(lastEl);
+    observer.observe(lastEl);
 }
 
 function displayNotifications() {
@@ -82,7 +122,7 @@ function displayNotifications() {
         notificationDisplay.textContent = error.message;
     } else {
         notificationDisplay.classList.remove('error');
-        notificationDisplay.textContent = `Showing ${beanieBabies.length} of ${count} found beanies`;
+        notificationDisplay.textContent = `Showing ${beanies.length} of ${count} found beanies`;
     }
 }
 
