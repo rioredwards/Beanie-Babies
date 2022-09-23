@@ -43,7 +43,6 @@ const observer = new IntersectionObserver((entries) => {
     for (const entry of entries) {
         if (entry.isIntersecting) {
             observer.unobserve(entry.target);
-            console.log(entry.target);
             findMoreBeanies();
         }
     }
@@ -52,7 +51,6 @@ const observer = new IntersectionObserver((entries) => {
 async function findMoreBeanies() {
     paging.page++;
     const response = await getBeanies(filter, paging);
-    console.log(response);
     error = response.error;
     const moreBeanies = response.data;
     beanies = beanies.concat(moreBeanies);
@@ -112,7 +110,6 @@ function displayMoreBeanies(beanies) {
         beanieBabyEl.addEventListener('click', cardFocus);
         lastEl = beanieBabyEl;
     }
-    console.log(lastEl);
     if (beanies.length < count) {
         observer.observe(lastEl);
     }
