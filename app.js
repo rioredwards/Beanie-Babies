@@ -113,7 +113,9 @@ function displayMoreBeanies(beanies) {
         lastEl = beanieBabyEl;
     }
     console.log(lastEl);
-    observer.observe(lastEl);
+    if (beanies.length < count) {
+        observer.observe(lastEl);
+    }
 }
 
 function displayNotifications() {
